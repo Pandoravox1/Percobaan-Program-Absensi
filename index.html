@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrasi Kehadiran & Penilaian Siswa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="branding">
+            <span class="logo">EduTrack</span>
+            <div class="tagline">
+                <h1>Panel Administrasi Akademik</h1>
+                <p>Kelola kehadiran dan penilaian siswa dengan mudah dan profesional.</p>
+            </div>
+        </div>
+        <div class="user-info">
+            <span class="user-role">Wali Kelas</span>
+            <span class="user-name">Ibu Sari</span>
+        </div>
+    </header>
+
+    <main class="layout">
+        <section class="card attendance-card">
+            <header class="card-header">
+                <div>
+                    <h2>Rekap Kehadiran Siswa</h2>
+                    <p>Catat status kehadiran dengan keterangan yang lengkap.</p>
+                </div>
+                <button id="exportAttendance" class="secondary-btn" type="button">Unduh Rekap</button>
+            </header>
+
+            <div class="grid two-column">
+                <div class="stats">
+                    <div class="stat">
+                        <span class="label">Persentase Kehadiran</span>
+                        <span id="attendanceRate" class="value">0%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Ketidakhadiran Excused</span>
+                        <span id="excusedCount" class="value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Ketidakhadiran Unexcused</span>
+                        <span id="unexcusedCount" class="value">0</span>
+                    </div>
+                </div>
+
+                <form id="attendanceForm" class="form">
+                    <h3>Tambah Catatan Kehadiran</h3>
+                    <div class="form-field">
+                        <label for="attendanceStudent">Nama Siswa</label>
+                        <input id="attendanceStudent" name="student" type="text" placeholder="Contoh: Andi Saputra" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="attendanceDate">Tanggal</label>
+                        <input id="attendanceDate" name="date" type="date" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="attendanceStatus">Status Kehadiran</label>
+                        <select id="attendanceStatus" name="status" required>
+                            <option value="Hadir">Hadir</option>
+                            <option value="Sakit">Sakit</option>
+                            <option value="Izin (Excused)">Izin (Excused)</option>
+                            <option value="Izin (Unexcused)">Izin (Unexcused)</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="attendanceNote">Keterangan Tambahan</label>
+                        <textarea id="attendanceNote" name="note" rows="2" placeholder="Contoh: Membawa surat dari orang tua"></textarea>
+                    </div>
+                    <button class="primary-btn" type="submit">Simpan Kehadiran</button>
+                </form>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>Nama Siswa</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Keterangan</th>
+                            <th class="actions-col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Attendance rows injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card grade-card">
+            <header class="card-header">
+                <div>
+                    <h2>Manajemen Penilaian</h2>
+                    <p>Tambah dan edit nilai tugas dengan bobot penilaian yang merata.</p>
+                </div>
+                <button id="exportGrades" class="secondary-btn" type="button">Unduh Nilai</button>
+            </header>
+
+            <div class="grid two-column">
+                <form id="gradeForm" class="form">
+                    <h3>Tambah Nilai Tugas</h3>
+                    <div class="form-field">
+                        <label for="gradeStudent">Nama Siswa</label>
+                        <input id="gradeStudent" name="student" type="text" placeholder="Contoh: Andi Saputra" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="gradeTask">Nama Tugas</label>
+                        <input id="gradeTask" name="task" type="text" placeholder="Contoh: Proyek Literasi" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="gradeScore">Nilai (0-100)</label>
+                        <input id="gradeScore" name="score" type="number" min="0" max="100" required>
+                    </div>
+                    <button class="primary-btn" type="submit">Simpan Nilai</button>
+                </form>
+
+                <div class="stats">
+                    <div class="stat">
+                        <span class="label">Nilai Rata-rata Kelas</span>
+                        <span id="classAverage" class="value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Jumlah Tugas</span>
+                        <span id="taskCount" class="value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Siswa Berprestasi</span>
+                        <span id="topStudents" class="value">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="gradeTable">
+                    <thead>
+                        <tr>
+                            <th>Nama Siswa</th>
+                            <th>Tugas Dinilai</th>
+                            <th>Nilai</th>
+                            <th>Bobot</th>
+                            <th class="actions-col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Grade rows injected here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <section class="summary">
+                <h3>Rata-rata per Siswa</h3>
+                <div id="studentSummary" class="summary-grid">
+                    <!-- Summary cards injected here -->
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>&copy; <span id="currentYear"></span> EduTrack. Sistem administrasi akademik terintegrasi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
